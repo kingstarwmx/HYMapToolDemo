@@ -3,6 +3,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9049"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
         <!--View Controller-->
@@ -16,11 +17,32 @@
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7kA-Je-z2Z">
+                                <rect key="frame" x="0.0" y="107" width="600" height="115"/>
+                                <color key="backgroundColor" red="0.0" green="0.37441984760202374" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="25"/>
+                                <state key="normal" title="显示地图">
+                                    <color key="titleColor" red="0.94701757925104635" green="0.91737043909157534" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="showMap:" destination="BYZ-38-t0r" eventType="touchUpInside" id="cuf-3U-kWe"/>
+                                </connections>
+                            </button>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="7kA-Je-z2Z" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="87" id="IJk-G6-clB"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="7kA-Je-z2Z" secondAttribute="bottom" constant="378" id="U4t-Ux-WqB"/>
+                            <constraint firstItem="7kA-Je-z2Z" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="-20" id="qXY-Jd-iKT"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="7kA-Je-z2Z" secondAttribute="trailing" constant="-20" id="vLM-X8-lba"/>
+                        </constraints>
                     </view>
+                    <navigationItem key="navigationItem" id="89q-Q1-LT6"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="1245" y="333"/>
         </scene>
     </scenes>
 </document>
