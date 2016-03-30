@@ -18,10 +18,11 @@
     UIView *_mapContainer;
     MAMapView *_mapView;
     
-    AMapSearchAPI *_search;
-    AMapSearchAPI *_nameSearch;
+    AMapSearchAPI *_search;//搜索的API
+    
     AMapPOIAroundSearchRequest *_request;//周边搜索请求
     AMapPOIKeywordsSearchRequest *_nameRequest;//关键字搜索请求
+    AMapPOIAroundSearchRequest *_moveRequest;//移动地图的周边搜索请求
     
     UITableView *_listTableView;
     NSMutableArray *_POIArray;
@@ -33,11 +34,13 @@
     UITableViewController * _searchResultsController;
     
     MAPointAnnotation *_pointAnnotation;
-    
+    AMapGeoPoint *_currentPoint;//当前指定的坐标
+    BOOL _isCurrentRequest;//在移动地图需要刷新的时候判断是否是下拉刷新还是重新移动视图刷新
     
 }
 
 @property (nonatomic, assign) NSInteger selcetedIndex;//listtableview cell的被选中序号
+@property (nonatomic, assign) NSInteger selcetedNameIndex;//listtableview cell的被选中序号
 
 @end
 
@@ -68,8 +71,8 @@
     _request.requireExtension = YES;
     
     //关键字搜索请求初始化
-    _nameSearch = [[AMapSearchAPI alloc] init];
-    _nameSearch.delegate = self;
+//    _nameSearch = [[AMapSearchAPI alloc] init];
+//    _nameSearch.delegate = self;
     _nameRequest = [[AMapPOIKeywordsSearchRequest alloc] init];
     _nameRequest.sortrule = 0;
     _nameRequest.requireExtension = YES;
@@ -78,16 +81,32 @@
     _nameRequest.cityLimit = YES;
     _nameRequest.page = _namePage;
     
+    //移动地图搜索请求初始化
+    _moveRequest = [[AMapPOIAroundSearchRequest alloc] init];
+//    _request.location = [AMapGeoPoint locationWithLatitude:30.544906 longitude:104.065731];
+    _moveRequest.page = _page;
+    //    request.keywords = @"方恒";
+    _moveRequest.types = @"商务住宅|道路附属设施";
+    _moveRequest.sortrule = 0;
+    _moveRequest.requireExtension = YES;
+    
+    _isCurrentRequest = NO;
 }
 
-- (void)loadMoreData{
-//    dispatch_async(dispatch_get_global_queue(0, 0), ^{
-        //发起周边搜索
-        [_search AMapPOIAroundSearch: _request];
-//    });
+
+
+//移动地图，listTableview的请求方法
+- (void)loadMoreData:(AMapGeoPoint *)point{
+    _moveRequest.location = point;
+    if (!_isCurrentRequest) {
+        _page = 0;
+    }
+    //发起周边搜索
+    [_search AMapPOIAroundSearch: _moveRequest];
     
     _page += 1;
-    _request.page = _page;
+    _moveRequest.page = _page;
+    _isCurrentRequest = YES;
 }
 
 - (void)viewDidAppear:(BOOL)animated{
@@ -108,19 +127,16 @@
     
     CLLocationCoordinate2D localtion = _mapView.centerCoordinate;
     
-    NSLog(@"latitude : %f,longitude: %f", localtion.latitude,localtion.longitude);
-    
-    
-    
-    
+//    NSLog(@"latitude : %f,longitude: %f", localtion.latitude,localtion.longitude);
+
     
     CGSize screenSize = [UIScreen mainScreen].bounds.size;
     //初始化searchBar
     UITableViewController *searchResultsController = [[UITableViewController alloc] initWithStyle:UITableViewStylePlain];
     _searchResultsController = searchResultsController;
     searchResultsController.tableView.mj_footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
-        //发起周边搜索
-        [_nameSearch AMapPOIKeywordsSearch: _nameRequest];
+        //发起关键字搜索
+        [_search AMapPOIKeywordsSearch: _nameRequest];
         _namePage += 1;
         _nameRequest.page = _namePage;
     }];
@@ -144,9 +160,13 @@
     _listTableView.delegate = self;
     _listTableView.dataSource = self;
     [self.view addSubview:_listTableView];
-//    _listTableView.tableHeaderView = _searchController.searchBar
     
-    MJRefreshAutoNormalFooter *footer = [MJRefreshAutoNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreData)];
+    MJRefreshAutoNormalFooter *footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
+        _request.location = _currentPoint;
+        [_search AMapPOIAroundSearch: _request];
+        _page += 1;
+        _request.page = _page;
+    }];
     _listTableView.mj_footer = footer;
     [_listTableView.mj_footer beginRefreshing];
     
@@ -159,45 +179,37 @@
     [_mapView addAnnotation:pointAnnotation];
 }
 
+
+
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    
     NSLog(@"viewWillAppear");
 }
 
 #pragma  mark -- UISearchResultsUpdating --
 - (void)updateSearchResultsForSearchController:(UISearchController *)searchController{
     
-
     NSString *searchText = [searchController.searchBar text];
-    
-    //exit if there is no search text (i.e. user tapped on the search bar and did not enter text yet)
     if(![searchText length] > 0) {
         
         return;
     }
     else {
-        
-        
+
         [_searchArray removeAllObjects];
         [_searchResultsController.tableView reloadData];
         NSLog(@"%@", searchText);
         _nameRequest.keywords = searchText;
         
-        [_nameSearch AMapPOIKeywordsSearch: _nameRequest];
-//        NSString *firstSearchCharacter = [searchText substringToIndex:1];
-        
-        //handle when user taps into search bear and there is no text entered yet
+        [_search AMapPOIKeywordsSearch: _nameRequest];
+
         if([searchText length] == 0) {
 
         }
-        //handle when user types in one or more characters in the search bar
         else if(searchText.length > 0) {
 
         }
-        
-        //now that the tableSections and tableSectionsAndItems properties are updated, reload the UISearchController's tableview
-        
+
     }
 }
 
@@ -216,23 +228,33 @@
     NSString *strSuggestion = [NSString stringWithFormat:@"Suggestion: %@", response.suggestion];
     NSString *strPoi = @"";
     if (request == _request) {
+        
         for (AMapPOI *p in response.pois) {
             [_POIArray addObject:p];
             strPoi = [NSString stringWithFormat:@"%@\nPOI: %@ name:%@", strPoi, p.description, p.name];
         }
-    }else{
+    }else if(request == _nameRequest){
         for (AMapPOI *p in response.pois) {
             [_searchArray addObject:p];
+        }
+    }else{
+        
+        if (!_isCurrentRequest) {
+            [_searchArray removeAllObjects];
+        }
+        for (AMapPOI *p in response.pois) {
+            [_searchArray addObject:p];
+//            NSLog(@"移动地名:%@", p.name);
         }
     }
     
     [_listTableView.mj_footer endRefreshing];
     [_searchResultsController.tableView.mj_footer endRefreshing];
     
-    NSLog(@"%ld", response.pois.count);
-    NSString *result = [NSString stringWithFormat:@"%@ \n %@ \n %@", strCount, strSuggestion, strPoi];
-    NSLog(@"Place: %@", result);
-    NSLog(@"%ld", _POIArray.count);
+//    NSLog(@"%ld", response.pois.count);
+//    NSString *result = [NSString stringWithFormat:@"%@ \n %@ \n %@", strCount, strSuggestion, strPoi];
+//    NSLog(@"Place: %@", result);
+//    NSLog(@"%ld", _POIArray.count);
     dispatch_async(dispatch_get_main_queue(), ^{
         [_listTableView reloadData];
     });
@@ -252,21 +274,32 @@ updatingLocation:(BOOL)updatingLocation
     if(updatingLocation)
     {
         //取出当前位置的坐标
-        NSLog(@"latitude : %f,longitude: %f",userLocation.coordinate.latitude,userLocation.coordinate.longitude);
-        
+//        NSLog(@"latitude : %f,longitude: %f",userLocation.coordinate.latitude,userLocation.coordinate.longitude);
+        _currentPoint = [AMapGeoPoint locationWithLatitude:userLocation.coordinate.latitude longitude:userLocation.coordinate.longitude];
+        NSLog(@"---------");
+        NSLog(@"didUpdateUserLocation");
     }
 }
 
-- (void)mapView:(MAMapView *)mapView mapWillMoveByUser:(BOOL)wasUserAction{
-//    _pointAnnotation.coordinate = _mapView.centerCoordinate;
-}
-
-- (void)mapView:(MAMapView *)mapView regionDidChangeAnimated:(BOOL)animated{
-//    _pointAnnotation.coordinate = _mapView.centerCoordinate;
-}
 
 - (void)mapView:(MAMapView *)mapView regionWillChangeAnimated:(BOOL)animated{
+    _isCurrentRequest = NO;
+    
     _pointAnnotation.coordinate = _mapView.centerCoordinate;
+    AMapGeoPoint *point = [AMapGeoPoint locationWithLatitude:_mapView.centerCoordinate.latitude longitude:_mapView.centerCoordinate.longitude];
+    [self loadMoreData:point];
+//    dispatch_async(dispatch_get_main_queue(), ^{
+//        [_listTableView reloadData];
+//    });
+    NSLog(@"regionWillChangeAnimated");
+}
+
+- (void)mapView:(MAMapView *)mapView mapWillMoveByUser:(BOOL)wasUserAction{
+    NSLog(@"mapWillMoveByUser");
+}
+
+- (void)mapView:(MAMapView *)mapView mapDidMoveByUser:(BOOL)wasUserAction{
+    NSLog(@"mapDidMoveByUser");
 }
 
 //圆圈
@@ -324,7 +357,7 @@ updatingLocation:(BOOL)updatingLocation
     if (tableView == _searchResultsController.tableView) {
         if (_searchArray.count != 0) {
             poi = _searchArray[indexPath.row];
-            NSLog(@"address:%@", poi.address);
+//            NSLog(@"address:%@", poi.address);
         }
         
     }else{
@@ -339,7 +372,7 @@ updatingLocation:(BOOL)updatingLocation
     }else{
         cell.accessoryView.hidden = YES;
     }
-    NSLog(@"searchArray.count:%ld", _searchArray.count);
+//    NSLog(@"searchArray.count:%ld", _searchArray.count);
 
     return cell;
 }
@@ -353,34 +386,39 @@ updatingLocation:(BOOL)updatingLocation
     return 0;
 }
 
-//- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-//    return <#expression#>
-//}
+
 
 #pragma mark - UITableViewDelegate methods
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-//    NSArray *cellArr = [tableView visibleCells];
-//    
-//    UITableViewCell *cell = [_listTableView cellForRowAtIndexPath:indexPath];
-//    cell.selected = YES;
-//    for (UITableViewCell *cell in cellArr) {
-//        if (cell.selected) {
-//            cell.accessoryView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"setting_checked"]];
-//        }
-//    }
-//    for (UITableViewCell *cell in cellArr) {
-//        cell.selected = NO;
-//    }
-    if (self.selcetedIndex == indexPath.row) {
-        return;
-    }
-    self.selcetedIndex = indexPath.row;
-    [_listTableView reloadData];
-    
-    
-   
+    if (tableView == _listTableView) {
+        //单选
+        if (self.selcetedIndex == indexPath.row) {
+            return;
+        }
+        self.selcetedIndex = indexPath.row;
+        [_listTableView reloadData];
         
-
+        AMapPOI *poi = _POIArray[indexPath.row];
+        AMapGeoPoint *point = poi.location;
+        CLLocationCoordinate2D location = CLLocationCoordinate2DMake(point.latitude, point.longitude);
+        MACoordinateRegion region = MACoordinateRegionMake(location, _mapView.region.span);
+        
+        [_mapView setRegion:region animated:YES];
+    }else{
+        if (self.selcetedNameIndex == indexPath.row) {
+            return;
+        }
+        self.selcetedNameIndex = indexPath.row;
+        [_searchResultsController.tableView reloadData];
+        
+        AMapPOI *poi = _searchArray[indexPath.row];
+        AMapGeoPoint *point = poi.location;
+        CLLocationCoordinate2D location = CLLocationCoordinate2DMake(point.latitude, point.longitude);
+        MACoordinateRegion region = MACoordinateRegionMake(location, _mapView.region.span);
+        _searchController.active = NO;
+        
+        [_mapView setRegion:region animated:YES];
+    }
 }
 
 @end
