@@ -17,14 +17,27 @@
 @interface HYMapViewController ()<MAMapViewDelegate, AMapSearchDelegate, UITableViewDataSource, UITableViewDelegate, UISearchResultsUpdating, UISearchBarDelegate>{
     UIView *_mapContainer;
     MAMapView *_mapView;
+    
     AMapSearchAPI *_search;
+    AMapSearchAPI *_nameSearch;
+    AMapPOIAroundSearchRequest *_request;//周边搜索请求
+    AMapPOIKeywordsSearchRequest *_nameRequest;//关键字搜索请求
+    
     UITableView *_listTableView;
     NSMutableArray *_POIArray;
-    AMapPOIAroundSearchRequest *_request;
+    NSMutableArray *_searchArray;
+    
     NSInteger _page;
+    NSInteger _namePage;
     UISearchController *_searchController;
+    UITableViewController * _searchResultsController;
+    
+    MAPointAnnotation *_pointAnnotation;
+    
+    
 }
 
+@property (nonatomic, assign) NSInteger selcetedIndex;//listtableview cell的被选中序号
 
 @end
 
@@ -33,7 +46,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     _POIArray = [NSMutableArray array];
-    
+    _searchArray = [NSMutableArray array];
     NSLog(@"viewDidLoad");
     
     //设置页面的格式
@@ -54,27 +67,24 @@
     _request.sortrule = 0;
     _request.requireExtension = YES;
     
-    
-    
-    //发起周边搜索
-//    [_search AMapPOIAroundSearch: _request];
-    
-   
-}
-
-- (void)btnClicked:(UIButton *)sender{
-    [_search AMapPOIAroundSearch: _request];
-    _page += 1;
-    _request.page = _page;
-    
-//    [self dismissViewControllerAnimated:YES completion:nil];
+    //关键字搜索请求初始化
+    _nameSearch = [[AMapSearchAPI alloc] init];
+    _nameSearch.delegate = self;
+    _nameRequest = [[AMapPOIKeywordsSearchRequest alloc] init];
+    _nameRequest.sortrule = 0;
+    _nameRequest.requireExtension = YES;
+    _nameRequest.types = @"商务住宅|道路附属设施";
+    _nameRequest.city = @"成都";
+    _nameRequest.cityLimit = YES;
+    _nameRequest.page = _namePage;
     
 }
 
 - (void)loadMoreData{
-    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+//    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        //发起周边搜索
         [_search AMapPOIAroundSearch: _request];
-    });
+//    });
     
     _page += 1;
     _request.page = _page;
@@ -85,49 +95,46 @@
     self.view.backgroundColor = [UIColor whiteColor];
     NSLog(@"viewDidAppear");
     
-    _mapContainer = [[UIView alloc] initWithFrame:CGRectMake(0, SEACHBARHEIGHT, CGRectGetWidth(self.view.bounds), MAPHEIGHT)];
-    [self.view addSubview:_mapContainer];
     
     //配置用户Key
     [MAMapServices sharedServices].apiKey = @"beb3637f15fef6621719825838a5eb3c";
-//    _mapView = [[MAMapView alloc] initWithFrame:CGRectMake(0, SEACHBARHEIGHT, CGRectGetWidth(self.view.bounds), MAPHEIGHT)];
-    _mapView = [[MAMapView alloc] init];
-    _mapView.frame = CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), MAPHEIGHT);
+    _mapView = [[MAMapView alloc] initWithFrame:CGRectMake(0, SEACHBARHEIGHT, CGRectGetWidth(self.view.bounds), MAPHEIGHT)];
     _mapView.userTrackingMode = MAUserTrackingModeFollow;
     _mapView.showsUserLocation = YES;
     _mapView.showsScale = NO;
     [_mapView setZoomLevel:16.1 animated:YES];
     _mapView.delegate = self;
-    [_mapContainer addSubview:_mapView];
+    [self.view addSubview:_mapView];
     
     CLLocationCoordinate2D localtion = _mapView.centerCoordinate;
     
     NSLog(@"latitude : %f,longitude: %f", localtion.latitude,localtion.longitude);
     
-    //设置大头针
-    MAPointAnnotation *pointAnnotation = [[MAPointAnnotation alloc] init];
-    pointAnnotation.coordinate = CLLocationCoordinate2DMake(39.911952, 116.405898);
-    pointAnnotation.title = @"方恒国际";
-    pointAnnotation.subtitle = @"阜通东大街6号";
-    [_mapView addAnnotation:pointAnnotation];
     
-    UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
-    btn.backgroundColor = [UIColor redColor];
-    btn.frame = CGRectMake(100, 100, 50, 50);
-    [self.view addSubview:btn];
-    [btn addTarget:self action:@selector(btnClicked:) forControlEvents:UIControlEventTouchUpInside];
+    
+    
     
     CGSize screenSize = [UIScreen mainScreen].bounds.size;
     //初始化searchBar
     UITableViewController *searchResultsController = [[UITableViewController alloc] initWithStyle:UITableViewStylePlain];
+    _searchResultsController = searchResultsController;
+    searchResultsController.tableView.mj_footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
+        //发起周边搜索
+        [_nameSearch AMapPOIKeywordsSearch: _nameRequest];
+        _namePage += 1;
+        _nameRequest.page = _namePage;
+    }];
     
     searchResultsController.tableView.dataSource = self;
     searchResultsController.tableView.delegate = self;
+    
     _searchController = [[UISearchController alloc] initWithSearchResultsController:searchResultsController];
     self.definesPresentationContext = YES;
-    _searchController.searchBar.frame = CGRectMake(0, 20, screenSize.width, SEACHBARHEIGHT);
+    _searchController.searchBar.frame = CGRectMake(0, _searchController.searchBar.frame.origin.y, screenSize.width, 44.0);
     _searchController.searchBar.tintColor = [UIColor whiteColor];
+    [_searchController.searchBar sizeToFit];
     [self.view addSubview:_searchController.searchBar];
+    
     
     _searchController.searchResultsUpdater = self;
     _searchController.searchBar.delegate = self;
@@ -137,12 +144,19 @@
     _listTableView.delegate = self;
     _listTableView.dataSource = self;
     [self.view addSubview:_listTableView];
+//    _listTableView.tableHeaderView = _searchController.searchBar
     
     MJRefreshAutoNormalFooter *footer = [MJRefreshAutoNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreData)];
     _listTableView.mj_footer = footer;
     [_listTableView.mj_footer beginRefreshing];
     
-    
+    //设置大头针
+    MAPointAnnotation *pointAnnotation = [[MAPointAnnotation alloc] init];
+//    pointAnnotation.coordinate = _mapView.centerCoordinate;
+    pointAnnotation.title = @"方恒国际";
+    pointAnnotation.subtitle = @"阜通东大街6号";
+    _pointAnnotation = pointAnnotation;
+    [_mapView addAnnotation:pointAnnotation];
 }
 
 - (void)viewWillAppear:(BOOL)animated{
@@ -151,7 +165,44 @@
     NSLog(@"viewWillAppear");
 }
 
+#pragma  mark -- UISearchResultsUpdating --
+- (void)updateSearchResultsForSearchController:(UISearchController *)searchController{
+    
+
+    NSString *searchText = [searchController.searchBar text];
+    
+    //exit if there is no search text (i.e. user tapped on the search bar and did not enter text yet)
+    if(![searchText length] > 0) {
+        
+        return;
+    }
+    else {
+        
+        
+        [_searchArray removeAllObjects];
+        [_searchResultsController.tableView reloadData];
+        NSLog(@"%@", searchText);
+        _nameRequest.keywords = searchText;
+        
+        [_nameSearch AMapPOIKeywordsSearch: _nameRequest];
+//        NSString *firstSearchCharacter = [searchText substringToIndex:1];
+        
+        //handle when user taps into search bear and there is no text entered yet
+        if([searchText length] == 0) {
+
+        }
+        //handle when user types in one or more characters in the search bar
+        else if(searchText.length > 0) {
+
+        }
+        
+        //now that the tableSections and tableSectionsAndItems properties are updated, reload the UISearchController's tableview
+        
+    }
+}
+
 #pragma mark -- AMapSearchDelegate --
+
 //实现POI搜索对应的回调函数
 - (void)onPOISearchDone:(AMapPOISearchBaseRequest *)request response:(AMapPOISearchResponse *)response
 {
@@ -164,12 +215,19 @@
     NSString *strCount = [NSString stringWithFormat:@"count: %ld",(long)response.count];
     NSString *strSuggestion = [NSString stringWithFormat:@"Suggestion: %@", response.suggestion];
     NSString *strPoi = @"";
-    for (AMapPOI *p in response.pois) {
-        [_POIArray addObject:p];
-        strPoi = [NSString stringWithFormat:@"%@\nPOI: %@ name:%@", strPoi, p.description, p.name];
+    if (request == _request) {
+        for (AMapPOI *p in response.pois) {
+            [_POIArray addObject:p];
+            strPoi = [NSString stringWithFormat:@"%@\nPOI: %@ name:%@", strPoi, p.description, p.name];
+        }
+    }else{
+        for (AMapPOI *p in response.pois) {
+            [_searchArray addObject:p];
+        }
     }
     
     [_listTableView.mj_footer endRefreshing];
+    [_searchResultsController.tableView.mj_footer endRefreshing];
     
     NSLog(@"%ld", response.pois.count);
     NSString *result = [NSString stringWithFormat:@"%@ \n %@ \n %@", strCount, strSuggestion, strPoi];
@@ -177,6 +235,10 @@
     NSLog(@"%ld", _POIArray.count);
     dispatch_async(dispatch_get_main_queue(), ^{
         [_listTableView reloadData];
+    });
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [_searchResultsController.tableView reloadData];
     });
     
 }
@@ -191,7 +253,20 @@ updatingLocation:(BOOL)updatingLocation
     {
         //取出当前位置的坐标
         NSLog(@"latitude : %f,longitude: %f",userLocation.coordinate.latitude,userLocation.coordinate.longitude);
+        
     }
+}
+
+- (void)mapView:(MAMapView *)mapView mapWillMoveByUser:(BOOL)wasUserAction{
+//    _pointAnnotation.coordinate = _mapView.centerCoordinate;
+}
+
+- (void)mapView:(MAMapView *)mapView regionDidChangeAnimated:(BOOL)animated{
+//    _pointAnnotation.coordinate = _mapView.centerCoordinate;
+}
+
+- (void)mapView:(MAMapView *)mapView regionWillChangeAnimated:(BOOL)animated{
+    _pointAnnotation.coordinate = _mapView.centerCoordinate;
 }
 
 //圆圈
@@ -245,16 +320,37 @@ updatingLocation:(BOOL)updatingLocation
     if (!cell) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:tableID];
     }
-    AMapPOI *poi = _POIArray[indexPath.row];
+    AMapPOI *poi = nil;
+    if (tableView == _searchResultsController.tableView) {
+        if (_searchArray.count != 0) {
+            poi = _searchArray[indexPath.row];
+            NSLog(@"address:%@", poi.address);
+        }
+        
+    }else{
+        poi = _POIArray[indexPath.row];
+    }
     
     cell.textLabel.text = poi.name;
     cell.detailTextLabel.text = poi.address;
-    NSLog(@"address:%@", poi.address);
+    
+    if (self.selcetedIndex == indexPath.row) {
+        cell.accessoryView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"setting_checked"]];
+    }else{
+        cell.accessoryView.hidden = YES;
+    }
+    NSLog(@"searchArray.count:%ld", _searchArray.count);
+
     return cell;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return _POIArray.count;
+    if (tableView == _searchResultsController.tableView){
+        return _searchArray.count;
+    }else{
+        return _POIArray.count;
+    }
+    return 0;
 }
 
 //- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -263,15 +359,28 @@ updatingLocation:(BOOL)updatingLocation
 
 #pragma mark - UITableViewDelegate methods
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+//    NSArray *cellArr = [tableView visibleCells];
+//    
+//    UITableViewCell *cell = [_listTableView cellForRowAtIndexPath:indexPath];
+//    cell.selected = YES;
+//    for (UITableViewCell *cell in cellArr) {
+//        if (cell.selected) {
+//            cell.accessoryView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"setting_checked"]];
+//        }
+//    }
+//    for (UITableViewCell *cell in cellArr) {
+//        cell.selected = NO;
+//    }
+    if (self.selcetedIndex == indexPath.row) {
+        return;
+    }
+    self.selcetedIndex = indexPath.row;
+    [_listTableView reloadData];
     
-//    NSDictionary *sectionItems = [self.tableSectionsAndItems objectAtIndex:indexPath.section];
-//    
-//    NSArray *namesForSection = [sectionItems objectForKey:[self.tableSections objectAtIndex:indexPath.section]];
-//    
-//    NSString *selectedItem = [namesForSection objectAtIndex:indexPath.row];
-//    
-//    //
-//    NSLog(@"User selected %@", selectedItem);
+    
+   
+        
+
 }
 
 @end
