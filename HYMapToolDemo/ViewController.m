@@ -23,8 +23,8 @@
 
 - (IBAction)showMap:(UIButton *)sender {
     HYMapViewController *mapVC = [[HYMapViewController alloc] init];
-    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:mapVC];
-    [self presentViewController:nav animated:YES completion:nil];
+//    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:mapVC];
+    [self presentViewController:mapVC animated:YES completion:nil];
 }
 
 
