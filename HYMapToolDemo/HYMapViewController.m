@@ -51,6 +51,7 @@
     _POIArray = [NSMutableArray array];
     _searchArray = [NSMutableArray array];
     NSLog(@"viewDidLoad");
+    self.navigationController.navigationBar.translucent = NO;
     
     //设置页面的格式
     UIBarButtonItem *leftItem = [[UIBarButtonItem alloc] init];
@@ -124,10 +125,6 @@
     [_mapView setZoomLevel:16.1 animated:YES];
     _mapView.delegate = self;
     [self.view addSubview:_mapView];
-    
-    CLLocationCoordinate2D localtion = _mapView.centerCoordinate;
-    
-//    NSLog(@"latitude : %f,longitude: %f", localtion.latitude,localtion.longitude);
 
     
     CGSize screenSize = [UIScreen mainScreen].bounds.size;
@@ -185,6 +182,8 @@
     [super viewWillAppear:animated];
     NSLog(@"viewWillAppear");
 }
+
+
 
 #pragma  mark -- UISearchResultsUpdating --
 - (void)updateSearchResultsForSearchController:(UISearchController *)searchController{
@@ -266,6 +265,7 @@
 }
 
 
+
 #pragma mark -- MAMapViewDelegate --
 
 -(void)mapView:(MAMapView *)mapView didUpdateUserLocation:(MAUserLocation *)userLocation
@@ -273,6 +273,7 @@ updatingLocation:(BOOL)updatingLocation
 {
     if(updatingLocation)
     {
+        
         //取出当前位置的坐标
 //        NSLog(@"latitude : %f,longitude: %f",userLocation.coordinate.latitude,userLocation.coordinate.longitude);
         _currentPoint = [AMapGeoPoint locationWithLatitude:userLocation.coordinate.latitude longitude:userLocation.coordinate.longitude];

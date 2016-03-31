@@ -29,6 +29,25 @@
 		06DE56F01CAA63C8007209C7 /* UIView+MJExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 06DE56DD1CAA63C8007209C7 /* UIView+MJExtension.m */; };
 		06DE56F31CAB7FE1007209C7 /* TestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06DE56F21CAB7FE1007209C7 /* TestViewController.m */; };
 		06DE56F61CABACA8007209C7 /* setting_checked@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 06DE56F51CABACA8007209C7 /* setting_checked@2x.png */; };
+		06DE56FF1CACC1A8007209C7 /* HYRouteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06DE56FE1CACC1A8007209C7 /* HYRouteViewController.m */; };
+		06DE57041CACD557007209C7 /* map_update_target_location@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 06DE57001CACD557007209C7 /* map_update_target_location@2x.png */; };
+		06DE57051CACD557007209C7 /* map_update_target_location@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 06DE57011CACD557007209C7 /* map_update_target_location@3x.png */; };
+		06DE57061CACD557007209C7 /* map_update_user_location@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 06DE57021CACD557007209C7 /* map_update_user_location@2x.png */; };
+		06DE57071CACD557007209C7 /* map_update_user_location@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 06DE57031CACD557007209C7 /* map_update_user_location@3x.png */; };
+		06DE570C1CACD56C007209C7 /* map_location_pin_conversation@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 06DE57081CACD56C007209C7 /* map_location_pin_conversation@2x.png */; };
+		06DE570D1CACD56C007209C7 /* map_location_pin_conversation@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 06DE57091CACD56C007209C7 /* map_location_pin_conversation@3x.png */; };
+		06DE570E1CACD56C007209C7 /* map_selected_poi_dot@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 06DE570A1CACD56C007209C7 /* map_selected_poi_dot@2x.png */; };
+		06DE570F1CACD56C007209C7 /* map_selected_poi_dot@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 06DE570B1CACD56C007209C7 /* map_selected_poi_dot@3x.png */; };
+		06DE57121CACFFD6007209C7 /* MANaviRoute.m in Sources */ = {isa = PBXBuildFile; fileRef = 06DE57111CACFFD6007209C7 /* MANaviRoute.m */; };
+		06DE57151CAD0153007209C7 /* MANaviAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 06DE57141CAD0153007209C7 /* MANaviAnnotation.m */; };
+		06DE57191CAD01AB007209C7 /* CommonUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 06DE57181CAD01AB007209C7 /* CommonUtility.m */; };
+		06DE571C1CAD026C007209C7 /* MANaviPolyline.m in Sources */ = {isa = PBXBuildFile; fileRef = 06DE571B1CAD026C007209C7 /* MANaviPolyline.m */; };
+		06DE571F1CAD02C5007209C7 /* LineDashPolyline.m in Sources */ = {isa = PBXBuildFile; fileRef = 06DE571E1CAD02C5007209C7 /* LineDashPolyline.m */; };
+		06DE572A1CAD122D007209C7 /* HYActionSheet.m in Sources */ = {isa = PBXBuildFile; fileRef = 06DE57221CAD122D007209C7 /* HYActionSheet.m */; };
+		06DE572B1CAD122D007209C7 /* HYCollectionButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 06DE57241CAD122D007209C7 /* HYCollectionButton.m */; };
+		06DE572C1CAD122D007209C7 /* HYCollectionPicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 06DE57261CAD122D007209C7 /* HYCollectionPicker.m */; };
+		06DE572D1CAD122D007209C7 /* bgImage_HL@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 06DE57281CAD122D007209C7 /* bgImage_HL@2x.png */; };
+		06DE572E1CAD122D007209C7 /* cellLine@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 06DE57291CAD122D007209C7 /* cellLine@2x.png */; };
 		06EBD2581CA4CD4700B026BF /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 06EBD2571CA4CD4700B026BF /* main.m */; };
 		06EBD25B1CA4CD4700B026BF /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 06EBD25A1CA4CD4700B026BF /* AppDelegate.m */; };
 		06EBD25E1CA4CD4700B026BF /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06EBD25D1CA4CD4700B026BF /* ViewController.m */; };
@@ -82,6 +101,34 @@
 		06DE56F11CAB7FE1007209C7 /* TestViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestViewController.h; sourceTree = "<group>"; };
 		06DE56F21CAB7FE1007209C7 /* TestViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestViewController.m; sourceTree = "<group>"; };
 		06DE56F51CABACA8007209C7 /* setting_checked@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "setting_checked@2x.png"; sourceTree = "<group>"; };
+		06DE56FD1CACC1A8007209C7 /* HYRouteViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HYRouteViewController.h; sourceTree = "<group>"; };
+		06DE56FE1CACC1A8007209C7 /* HYRouteViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HYRouteViewController.m; sourceTree = "<group>"; };
+		06DE57001CACD557007209C7 /* map_update_target_location@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "map_update_target_location@2x.png"; sourceTree = "<group>"; };
+		06DE57011CACD557007209C7 /* map_update_target_location@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "map_update_target_location@3x.png"; sourceTree = "<group>"; };
+		06DE57021CACD557007209C7 /* map_update_user_location@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "map_update_user_location@2x.png"; sourceTree = "<group>"; };
+		06DE57031CACD557007209C7 /* map_update_user_location@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "map_update_user_location@3x.png"; sourceTree = "<group>"; };
+		06DE57081CACD56C007209C7 /* map_location_pin_conversation@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "map_location_pin_conversation@2x.png"; sourceTree = "<group>"; };
+		06DE57091CACD56C007209C7 /* map_location_pin_conversation@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "map_location_pin_conversation@3x.png"; sourceTree = "<group>"; };
+		06DE570A1CACD56C007209C7 /* map_selected_poi_dot@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "map_selected_poi_dot@2x.png"; sourceTree = "<group>"; };
+		06DE570B1CACD56C007209C7 /* map_selected_poi_dot@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "map_selected_poi_dot@3x.png"; sourceTree = "<group>"; };
+		06DE57101CACFFD6007209C7 /* MANaviRoute.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MANaviRoute.h; sourceTree = "<group>"; };
+		06DE57111CACFFD6007209C7 /* MANaviRoute.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MANaviRoute.m; sourceTree = "<group>"; };
+		06DE57131CAD0153007209C7 /* MANaviAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MANaviAnnotation.h; sourceTree = "<group>"; };
+		06DE57141CAD0153007209C7 /* MANaviAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MANaviAnnotation.m; sourceTree = "<group>"; };
+		06DE57171CAD01AB007209C7 /* CommonUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommonUtility.h; sourceTree = "<group>"; };
+		06DE57181CAD01AB007209C7 /* CommonUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommonUtility.m; sourceTree = "<group>"; };
+		06DE571A1CAD026C007209C7 /* MANaviPolyline.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MANaviPolyline.h; sourceTree = "<group>"; };
+		06DE571B1CAD026C007209C7 /* MANaviPolyline.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MANaviPolyline.m; sourceTree = "<group>"; };
+		06DE571D1CAD02C5007209C7 /* LineDashPolyline.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LineDashPolyline.h; sourceTree = "<group>"; };
+		06DE571E1CAD02C5007209C7 /* LineDashPolyline.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LineDashPolyline.m; sourceTree = "<group>"; };
+		06DE57211CAD122D007209C7 /* HYActionSheet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HYActionSheet.h; sourceTree = "<group>"; };
+		06DE57221CAD122D007209C7 /* HYActionSheet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HYActionSheet.m; sourceTree = "<group>"; };
+		06DE57231CAD122D007209C7 /* HYCollectionButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HYCollectionButton.h; sourceTree = "<group>"; };
+		06DE57241CAD122D007209C7 /* HYCollectionButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HYCollectionButton.m; sourceTree = "<group>"; };
+		06DE57251CAD122D007209C7 /* HYCollectionPicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HYCollectionPicker.h; sourceTree = "<group>"; };
+		06DE57261CAD122D007209C7 /* HYCollectionPicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HYCollectionPicker.m; sourceTree = "<group>"; };
+		06DE57281CAD122D007209C7 /* bgImage_HL@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bgImage_HL@2x.png"; sourceTree = "<group>"; };
+		06DE57291CAD122D007209C7 /* cellLine@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cellLine@2x.png"; sourceTree = "<group>"; };
 		06EBD2531CA4CD4700B026BF /* HYMapToolDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HYMapToolDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		06EBD2571CA4CD4700B026BF /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		06EBD2591CA4CD4700B026BF /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -205,9 +252,57 @@
 		06DE56F41CABAC96007209C7 /* resources */ = {
 			isa = PBXGroup;
 			children = (
+				06DE57081CACD56C007209C7 /* map_location_pin_conversation@2x.png */,
+				06DE57091CACD56C007209C7 /* map_location_pin_conversation@3x.png */,
+				06DE570A1CACD56C007209C7 /* map_selected_poi_dot@2x.png */,
+				06DE570B1CACD56C007209C7 /* map_selected_poi_dot@3x.png */,
+				06DE57001CACD557007209C7 /* map_update_target_location@2x.png */,
+				06DE57011CACD557007209C7 /* map_update_target_location@3x.png */,
+				06DE57021CACD557007209C7 /* map_update_user_location@2x.png */,
+				06DE57031CACD557007209C7 /* map_update_user_location@3x.png */,
 				06DE56F51CABACA8007209C7 /* setting_checked@2x.png */,
 			);
 			name = resources;
+			sourceTree = "<group>";
+		};
+		06DE57161CAD0157007209C7 /* model */ = {
+			isa = PBXGroup;
+			children = (
+				06DE571D1CAD02C5007209C7 /* LineDashPolyline.h */,
+				06DE571E1CAD02C5007209C7 /* LineDashPolyline.m */,
+				06DE571A1CAD026C007209C7 /* MANaviPolyline.h */,
+				06DE571B1CAD026C007209C7 /* MANaviPolyline.m */,
+				06DE57171CAD01AB007209C7 /* CommonUtility.h */,
+				06DE57181CAD01AB007209C7 /* CommonUtility.m */,
+				06DE57131CAD0153007209C7 /* MANaviAnnotation.h */,
+				06DE57141CAD0153007209C7 /* MANaviAnnotation.m */,
+				06DE57101CACFFD6007209C7 /* MANaviRoute.h */,
+				06DE57111CACFFD6007209C7 /* MANaviRoute.m */,
+			);
+			name = model;
+			sourceTree = "<group>";
+		};
+		06DE57201CAD122D007209C7 /* HYSelectView */ = {
+			isa = PBXGroup;
+			children = (
+				06DE57211CAD122D007209C7 /* HYActionSheet.h */,
+				06DE57221CAD122D007209C7 /* HYActionSheet.m */,
+				06DE57231CAD122D007209C7 /* HYCollectionButton.h */,
+				06DE57241CAD122D007209C7 /* HYCollectionButton.m */,
+				06DE57251CAD122D007209C7 /* HYCollectionPicker.h */,
+				06DE57261CAD122D007209C7 /* HYCollectionPicker.m */,
+				06DE57271CAD122D007209C7 /* resources */,
+			);
+			path = HYSelectView;
+			sourceTree = "<group>";
+		};
+		06DE57271CAD122D007209C7 /* resources */ = {
+			isa = PBXGroup;
+			children = (
+				06DE57281CAD122D007209C7 /* bgImage_HL@2x.png */,
+				06DE57291CAD122D007209C7 /* cellLine@2x.png */,
+			);
+			path = resources;
 			sourceTree = "<group>";
 		};
 		06EBD24A1CA4CD4700B026BF = {
@@ -231,6 +326,7 @@
 		06EBD2551CA4CD4700B026BF /* HYMapToolDemo */ = {
 			isa = PBXGroup;
 			children = (
+				06DE57201CAD122D007209C7 /* HYSelectView */,
 				06DE56B11CAA63C8007209C7 /* MJRefresh */,
 				06EBD2591CA4CD4700B026BF /* AppDelegate.h */,
 				06EBD25A1CA4CD4700B026BF /* AppDelegate.m */,
@@ -238,6 +334,9 @@
 				06EBD25D1CA4CD4700B026BF /* ViewController.m */,
 				06DE56971CA8D256007209C7 /* HYMapViewController.h */,
 				06DE56981CA8D256007209C7 /* HYMapViewController.m */,
+				06DE56FD1CACC1A8007209C7 /* HYRouteViewController.h */,
+				06DE56FE1CACC1A8007209C7 /* HYRouteViewController.m */,
+				06DE57161CAD0157007209C7 /* model */,
 				06DE56F11CAB7FE1007209C7 /* TestViewController.h */,
 				06DE56F21CAB7FE1007209C7 /* TestViewController.m */,
 				06DE56F41CABAC96007209C7 /* resources */,
@@ -336,9 +435,19 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				06DE570D1CACD56C007209C7 /* map_location_pin_conversation@3x.png in Resources */,
+				06DE572D1CAD122D007209C7 /* bgImage_HL@2x.png in Resources */,
+				06DE57041CACD557007209C7 /* map_update_target_location@2x.png in Resources */,
+				06DE570F1CACD56C007209C7 /* map_selected_poi_dot@3x.png in Resources */,
 				06EBD2661CA4CD4700B026BF /* LaunchScreen.storyboard in Resources */,
+				06DE57061CACD557007209C7 /* map_update_user_location@2x.png in Resources */,
 				06DE56F61CABACA8007209C7 /* setting_checked@2x.png in Resources */,
+				06DE57051CACD557007209C7 /* map_update_target_location@3x.png in Resources */,
 				06EBD2631CA4CD4700B026BF /* Assets.xcassets in Resources */,
+				06DE570E1CACD56C007209C7 /* map_selected_poi_dot@2x.png in Resources */,
+				06DE57071CACD557007209C7 /* map_update_user_location@3x.png in Resources */,
+				06DE572E1CAD122D007209C7 /* cellLine@2x.png in Resources */,
+				06DE570C1CACD56C007209C7 /* map_location_pin_conversation@2x.png in Resources */,
 				06DE56EC1CAA63C8007209C7 /* MJRefresh.bundle in Resources */,
 				06EBD2611CA4CD4700B026BF /* Main.storyboard in Resources */,
 			);
@@ -402,13 +511,19 @@
 				06DE56E41CAA63C8007209C7 /* MJRefreshAutoNormalFooter.m in Sources */,
 				06DE56E71CAA63C8007209C7 /* MJRefreshBackNormalFooter.m in Sources */,
 				06DE56DF1CAA63C8007209C7 /* MJRefreshBackFooter.m in Sources */,
+				06DE571C1CAD026C007209C7 /* MANaviPolyline.m in Sources */,
 				06DE56ED1CAA63C8007209C7 /* MJRefreshConst.m in Sources */,
 				06DE56EE1CAA63C8007209C7 /* UIScrollView+MJExtension.m in Sources */,
 				06DE56E11CAA63C8007209C7 /* MJRefreshFooter.m in Sources */,
+				06DE57191CAD01AB007209C7 /* CommonUtility.m in Sources */,
 				06DE56E91CAA63C8007209C7 /* MJRefreshGifHeader.m in Sources */,
 				06DE56DE1CAA63C8007209C7 /* MJRefreshAutoFooter.m in Sources */,
 				06EBD25E1CA4CD4700B026BF /* ViewController.m in Sources */,
+				06DE571F1CAD02C5007209C7 /* LineDashPolyline.m in Sources */,
+				06DE56FF1CACC1A8007209C7 /* HYRouteViewController.m in Sources */,
+				06DE57151CAD0153007209C7 /* MANaviAnnotation.m in Sources */,
 				06DE56F01CAA63C8007209C7 /* UIView+MJExtension.m in Sources */,
+				06DE57121CACFFD6007209C7 /* MANaviRoute.m in Sources */,
 				06DE56E21CAA63C8007209C7 /* MJRefreshHeader.m in Sources */,
 				06DE56E61CAA63C8007209C7 /* MJRefreshBackGifFooter.m in Sources */,
 				06DE56EF1CAA63C8007209C7 /* UIScrollView+MJRefresh.m in Sources */,
@@ -419,6 +534,9 @@
 				06DE56EB1CAA63C8007209C7 /* MJRefreshStateHeader.m in Sources */,
 				06DE56E81CAA63C8007209C7 /* MJRefreshBackStateFooter.m in Sources */,
 				06DE56E31CAA63C8007209C7 /* MJRefreshAutoGifFooter.m in Sources */,
+				06DE572C1CAD122D007209C7 /* HYCollectionPicker.m in Sources */,
+				06DE572A1CAD122D007209C7 /* HYActionSheet.m in Sources */,
+				06DE572B1CAD122D007209C7 /* HYCollectionButton.m in Sources */,
 				06DE56991CA8D256007209C7 /* HYMapViewController.m in Sources */,
 				06EBD2581CA4CD4700B026BF /* main.m in Sources */,
 				06DE56F31CAB7FE1007209C7 /* TestViewController.m in Sources */,

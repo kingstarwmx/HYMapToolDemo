@@ -7,7 +7,7 @@
 //
 
 #import "AppDelegate.h"
-//#import <MAMapKit/MAMapKit.h>
+#import "ViewController.h"
 
 @interface AppDelegate ()
 
@@ -17,8 +17,12 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    ViewController *mainViewController = [[ViewController alloc] init];
     
+    self.window.rootViewController = [[UINavigationController alloc] initWithRootViewController:mainViewController];
     
+    self.window.backgroundColor = [UIColor whiteColor];
+    [self.window makeKeyAndVisible];
     return YES;
 }
 
