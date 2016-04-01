@@ -8,6 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
+typedef void(^takeSnapshotBlock)(UIImage *image);
+
 @interface HYMapViewController : UIViewController
+
+@property (nonatomic, copy) takeSnapshotBlock block;
 
 @end
