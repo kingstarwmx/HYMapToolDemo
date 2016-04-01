@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <AMapSearchKit/AMapSearchKit.h>
 
-typedef void(^takeSnapshotBlock)(UIImage *image);
+typedef void(^takeSnapshotBlock)(UIImage *image, AMapGeoPoint *selectedPoint);
 
 @interface HYMapViewController : UIViewController
 

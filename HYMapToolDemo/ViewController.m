@@ -49,8 +49,9 @@
 - (void)tap1:(UIButton *)sender{
     __block typeof(self) weakSelf = self;
     HYMapViewController *mapVC = [[HYMapViewController alloc] init];
-    mapVC.block = ^(UIImage *image){
+    mapVC.block = ^(UIImage *image, AMapGeoPoint *point){
         weakSelf.imageView.image = image;
+        NSLog(@"point.latitude:%lf---point.longitude:%lf", point.latitude, point.longitude);
     };
     UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:mapVC];
     mapVC.title = @"地图";

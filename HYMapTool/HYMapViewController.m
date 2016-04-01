@@ -8,7 +8,7 @@
 
 #import "HYMapViewController.h"
 #import <MAMapKit/MAMapKit.h>
-#import <AMapSearchKit/AMapSearchKit.h>
+
 #import "MJRefresh.h"
 #import "MapToolRefreshFooter.h"
 
@@ -105,7 +105,7 @@
 
 - (void)send:(UIBarButtonItem *)item{
     UIImage *image = [_mapView takeSnapshotInRect:CGRectMake(0, SEACHBARHEIGHT, self.view.bounds.size.width, MAPHEIGHT)];
-    self.block(image);
+    self.block(image, _centerPoint);
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
@@ -224,6 +224,8 @@
     _request.page = _page;
 }
 
+
+
 - (void)initAnnotation{
     //设置大头针
     MAPointAnnotation *pointAnnotation = [[MAPointAnnotation alloc] init];
@@ -234,15 +236,18 @@
     [_mapView addAnnotation:pointAnnotation];
 }
 
+
+
 - (void)initMap{
     //配置用户Key
     [MAMapServices sharedServices].apiKey = @"beb3637f15fef6621719825838a5eb3c";
     _mapView = [[MAMapView alloc] initWithFrame:CGRectMake(0, SEACHBARHEIGHT, CGRectGetWidth(self.view.bounds), MAPHEIGHT)];
     _mapView.userTrackingMode = MAUserTrackingModeFollow;
     _mapView.showsUserLocation = YES;
-    _mapView.showsScale = NO;
+    _mapView.showsScale = YES;
+    _mapView.scaleOrigin = CGPointMake(63, MAPHEIGHT - 27);
     _mapView.distanceFilter = 20.f;
-    [_mapView setZoomLevel:16.1 animated:YES];
+    [_mapView setZoomLevel:14.6 animated:YES];
     _mapView.delegate = self;
     [self.view addSubview:_mapView];
 }
@@ -350,14 +355,12 @@ updatingLocation:(BOOL)updatingLocation
     if ([view.annotation isKindOfClass:[MAUserLocation class]])
     {
         MAUserLocationRepresentation *pre = [[MAUserLocationRepresentation alloc] init];
+        pre.showsAccuracyRing = YES;
         pre.fillColor = [UIColor colorWithRed:0.28 green:0.55 blue:0.9 alpha:0.4];
-        //        pre.strokeColor = [UIColor colorWithRed:0.1 green:0.1 blue:0.9 alpha:1.0];
-        pre.image = [UIImage imageNamed:@"location.png"];
+//        pre.image = [UIImage imageNamed:@"[标记]01-注册"];
         pre.lineWidth = 3;
         pre.lineDashPattern = @[@6, @3];
-        
         [_mapView updateUserLocationRepresentation:pre];
-        
         view.calloutOffset = CGPointMake(0, 0);
     }
 }

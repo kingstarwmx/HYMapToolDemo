@@ -49,6 +49,7 @@
 		06DE57AE1CAE5D9C007209C7 /* UIScrollView+MJRefresh.m in Sources */ = {isa = PBXBuildFile; fileRef = 06DE57841CAE5D9B007209C7 /* UIScrollView+MJRefresh.m */; };
 		06DE57AF1CAE5D9C007209C7 /* UIView+MJExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 06DE57861CAE5D9B007209C7 /* UIView+MJExtension.m */; };
 		06DE57B11CAE5F60007209C7 /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = 06DE57B01CAE5F60007209C7 /* README.md */; };
+		06DE57B51CAE6B97007209C7 /* [标记]01-注册.png in Resources */ = {isa = PBXBuildFile; fileRef = 06DE57B41CAE6B97007209C7 /* [标记]01-注册.png */; };
 		06EBD2581CA4CD4700B026BF /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 06EBD2571CA4CD4700B026BF /* main.m */; };
 		06EBD25B1CA4CD4700B026BF /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 06EBD25A1CA4CD4700B026BF /* AppDelegate.m */; };
 		06EBD25E1CA4CD4700B026BF /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06EBD25D1CA4CD4700B026BF /* ViewController.m */; };
@@ -131,6 +132,7 @@
 		06DE57851CAE5D9B007209C7 /* UIView+MJExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+MJExtension.h"; sourceTree = "<group>"; };
 		06DE57861CAE5D9B007209C7 /* UIView+MJExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+MJExtension.m"; sourceTree = "<group>"; };
 		06DE57B01CAE5F60007209C7 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		06DE57B41CAE6B97007209C7 /* [标记]01-注册.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "[标记]01-注册.png"; sourceTree = "<group>"; };
 		06EBD2531CA4CD4700B026BF /* HYMapToolDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HYMapToolDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		06EBD2571CA4CD4700B026BF /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		06EBD2591CA4CD4700B026BF /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -193,6 +195,7 @@
 		06DE57441CAE5D9B007209C7 /* maptool_resources */ = {
 			isa = PBXGroup;
 			children = (
+				06DE57B41CAE6B97007209C7 /* [标记]01-注册.png */,
 				06DE57451CAE5D9B007209C7 /* map_location_pin_conversation@2x.png */,
 				06DE57461CAE5D9B007209C7 /* map_location_pin_conversation@3x.png */,
 				06DE57471CAE5D9B007209C7 /* map_selected_poi_dot@2x.png */,
@@ -447,6 +450,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				06DE57941CAE5D9C007209C7 /* map_update_user_location@2x.png in Resources */,
+				06DE57B51CAE6B97007209C7 /* [标记]01-注册.png in Resources */,
 				06EBD2661CA4CD4700B026BF /* LaunchScreen.storyboard in Resources */,
 				06DE57951CAE5D9C007209C7 /* map_update_user_location@3x.png in Resources */,
 				06DE579B1CAE5D9C007209C7 /* bgImage_HL@2x.png in Resources */,
