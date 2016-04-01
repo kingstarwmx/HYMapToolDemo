@@ -48,6 +48,7 @@
 		06DE57AD1CAE5D9C007209C7 /* UIScrollView+MJExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 06DE57821CAE5D9B007209C7 /* UIScrollView+MJExtension.m */; };
 		06DE57AE1CAE5D9C007209C7 /* UIScrollView+MJRefresh.m in Sources */ = {isa = PBXBuildFile; fileRef = 06DE57841CAE5D9B007209C7 /* UIScrollView+MJRefresh.m */; };
 		06DE57AF1CAE5D9C007209C7 /* UIView+MJExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 06DE57861CAE5D9B007209C7 /* UIView+MJExtension.m */; };
+		06DE57B11CAE5F60007209C7 /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = 06DE57B01CAE5F60007209C7 /* README.md */; };
 		06EBD2581CA4CD4700B026BF /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 06EBD2571CA4CD4700B026BF /* main.m */; };
 		06EBD25B1CA4CD4700B026BF /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 06EBD25A1CA4CD4700B026BF /* AppDelegate.m */; };
 		06EBD25E1CA4CD4700B026BF /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06EBD25D1CA4CD4700B026BF /* ViewController.m */; };
@@ -129,6 +130,7 @@
 		06DE57841CAE5D9B007209C7 /* UIScrollView+MJRefresh.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+MJRefresh.m"; sourceTree = "<group>"; };
 		06DE57851CAE5D9B007209C7 /* UIView+MJExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+MJExtension.h"; sourceTree = "<group>"; };
 		06DE57861CAE5D9B007209C7 /* UIView+MJExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+MJExtension.m"; sourceTree = "<group>"; };
+		06DE57B01CAE5F60007209C7 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		06EBD2531CA4CD4700B026BF /* HYMapToolDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HYMapToolDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		06EBD2571CA4CD4700B026BF /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		06EBD2591CA4CD4700B026BF /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -323,6 +325,7 @@
 		06EBD24A1CA4CD4700B026BF = {
 			isa = PBXGroup;
 			children = (
+				06DE57B01CAE5F60007209C7 /* README.md */,
 				06DE57341CAE5D9B007209C7 /* HYMapTool */,
 				06DE57501CAE5D9B007209C7 /* HYSelectView */,
 				06DE575A1CAE5D9B007209C7 /* MJRefresh */,
@@ -525,6 +528,7 @@
 				06DE57881CAE5D9B007209C7 /* HYRouteViewController.m in Sources */,
 				06DE57AF1CAE5D9C007209C7 /* UIView+MJExtension.m in Sources */,
 				06DE57A31CAE5D9C007209C7 /* MJRefreshAutoNormalFooter.m in Sources */,
+				06DE57B11CAE5F60007209C7 /* README.md in Sources */,
 				06DE57A01CAE5D9C007209C7 /* MJRefreshFooter.m in Sources */,
 				06EBD25E1CA4CD4700B026BF /* ViewController.m in Sources */,
 				06DE57AA1CAE5D9C007209C7 /* MJRefreshStateHeader.m in Sources */,
