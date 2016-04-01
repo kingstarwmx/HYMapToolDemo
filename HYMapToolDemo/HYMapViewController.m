@@ -57,23 +57,49 @@
     UIBarButtonItem *leftItem = [[UIBarButtonItem alloc] init];
     leftItem.title = @"取消";
     
+    [self initSearch];
+    //构造AMapPOIAroundSearchRequest对象，设置周边请求参数
+    [self initAMapPOIAroundSearchRequest];
+    
+    //关键字搜索请求初始化
+    [self initAMapPOIKeywordsSearchRequest];
+    
+    //移动地图搜索请求初始化
+    [self initMoveAMapPOIAroundSearchRequest];
+    
+    _isCurrentRequest = NO;
+    
+    [self initMap];
+    
+    [self initSearchController];
+    
+    [self initTableView];
+    
+    //初始化大头针
+    [self initAnnotation];
+    
+}
+
+- (void)initSearch{
     //搜索API
     //初始化检索对象
     [AMapSearchServices sharedServices].apiKey = @"beb3637f15fef6621719825838a5eb3c";
     _search = [[AMapSearchAPI alloc] init];
     _search.delegate = self;
-    //构造AMapPOIAroundSearchRequest对象，设置周边请求参数
-    _request = [[AMapPOIAroundSearchRequest alloc] init];
-    _request.location = [AMapGeoPoint locationWithLatitude:30.544906 longitude:104.065731];
-    _request.page = _page;
+}
+
+- (void)initMoveAMapPOIAroundSearchRequest{
+    //移动地图搜索请求初始化
+    _moveRequest = [[AMapPOIAroundSearchRequest alloc] init];
+    //    _request.location = [AMapGeoPoint locationWithLatitude:30.544906 longitude:104.065731];
+    _moveRequest.page = _page;
     //    request.keywords = @"方恒";
-    _request.types = @"商务住宅|道路附属设施";
-    _request.sortrule = 0;
-    _request.requireExtension = YES;
-    
-    //关键字搜索请求初始化
-//    _nameSearch = [[AMapSearchAPI alloc] init];
-//    _nameSearch.delegate = self;
+    _moveRequest.types = @"商务住宅|道路附属设施";
+    _moveRequest.sortrule = 0;
+    _moveRequest.requireExtension = YES;
+}
+
+- (void)initAMapPOIKeywordsSearchRequest{
     _nameRequest = [[AMapPOIKeywordsSearchRequest alloc] init];
     _nameRequest.sortrule = 0;
     _nameRequest.requireExtension = YES;
@@ -81,20 +107,17 @@
     _nameRequest.city = @"成都";
     _nameRequest.cityLimit = YES;
     _nameRequest.page = _namePage;
-    
-    //移动地图搜索请求初始化
-    _moveRequest = [[AMapPOIAroundSearchRequest alloc] init];
-//    _request.location = [AMapGeoPoint locationWithLatitude:30.544906 longitude:104.065731];
-    _moveRequest.page = _page;
-    //    request.keywords = @"方恒";
-    _moveRequest.types = @"商务住宅|道路附属设施";
-    _moveRequest.sortrule = 0;
-    _moveRequest.requireExtension = YES;
-    
-    _isCurrentRequest = NO;
 }
 
-
+- (void)initAMapPOIAroundSearchRequest{
+    _request = [[AMapPOIAroundSearchRequest alloc] init];
+    _request.location = [AMapGeoPoint locationWithLatitude:30.544906 longitude:104.065731];
+    _request.page = _page;
+    //    request.keywords = @"方恒";
+    _request.types = @"商务住宅|道路附属设施";
+    _request.sortrule = 0;
+    _request.requireExtension = YES;
+}
 
 //移动地图，listTableview的请求方法
 - (void)loadMoreData:(AMapGeoPoint *)point{
@@ -110,23 +133,7 @@
     _isCurrentRequest = YES;
 }
 
-- (void)viewDidAppear:(BOOL)animated{
-    [super viewDidAppear:animated];
-    self.view.backgroundColor = [UIColor whiteColor];
-    NSLog(@"viewDidAppear");
-    
-    
-    //配置用户Key
-    [MAMapServices sharedServices].apiKey = @"beb3637f15fef6621719825838a5eb3c";
-    _mapView = [[MAMapView alloc] initWithFrame:CGRectMake(0, SEACHBARHEIGHT, CGRectGetWidth(self.view.bounds), MAPHEIGHT)];
-    _mapView.userTrackingMode = MAUserTrackingModeFollow;
-    _mapView.showsUserLocation = YES;
-    _mapView.showsScale = NO;
-    [_mapView setZoomLevel:16.1 animated:YES];
-    _mapView.delegate = self;
-    [self.view addSubview:_mapView];
-
-    
+- (void)initSearchController{
     CGSize screenSize = [UIScreen mainScreen].bounds.size;
     //初始化searchBar
     UITableViewController *searchResultsController = [[UITableViewController alloc] initWithStyle:UITableViewStylePlain];
@@ -151,6 +158,12 @@
     
     _searchController.searchResultsUpdater = self;
     _searchController.searchBar.delegate = self;
+
+}
+
+- (void)initTableView{
+    CGSize screenSize = [UIScreen mainScreen].bounds.size;
+    
     
     //初始化tableView
     _listTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, SEACHBARHEIGHT + MAPHEIGHT, screenSize.width, screenSize.height - SEACHBARHEIGHT - MAPHEIGHT) style:UITableViewStylePlain];
@@ -166,17 +179,35 @@
     }];
     _listTableView.mj_footer = footer;
     [_listTableView.mj_footer beginRefreshing];
-    
+}
+
+- (void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
+    self.view.backgroundColor = [UIColor whiteColor];
+    NSLog(@"viewDidAppear");
+}
+
+- (void)initAnnotation{
     //设置大头针
     MAPointAnnotation *pointAnnotation = [[MAPointAnnotation alloc] init];
-//    pointAnnotation.coordinate = _mapView.centerCoordinate;
+    //    pointAnnotation.coordinate = _mapView.centerCoordinate;
     pointAnnotation.title = @"方恒国际";
     pointAnnotation.subtitle = @"阜通东大街6号";
     _pointAnnotation = pointAnnotation;
     [_mapView addAnnotation:pointAnnotation];
 }
 
-
+- (void)initMap{
+    //配置用户Key
+    [MAMapServices sharedServices].apiKey = @"beb3637f15fef6621719825838a5eb3c";
+    _mapView = [[MAMapView alloc] initWithFrame:CGRectMake(0, SEACHBARHEIGHT, CGRectGetWidth(self.view.bounds), MAPHEIGHT)];
+    _mapView.userTrackingMode = MAUserTrackingModeFollow;
+    _mapView.showsUserLocation = YES;
+    _mapView.showsScale = NO;
+    [_mapView setZoomLevel:16.1 animated:YES];
+    _mapView.delegate = self;
+    [self.view addSubview:_mapView];
+}
 
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
@@ -194,20 +225,12 @@
         return;
     }
     else {
-
         [_searchArray removeAllObjects];
         [_searchResultsController.tableView reloadData];
         NSLog(@"%@", searchText);
         _nameRequest.keywords = searchText;
         
         [_search AMapPOIKeywordsSearch: _nameRequest];
-
-        if([searchText length] == 0) {
-
-        }
-        else if(searchText.length > 0) {
-
-        }
 
     }
 }
@@ -250,10 +273,6 @@
     [_listTableView.mj_footer endRefreshing];
     [_searchResultsController.tableView.mj_footer endRefreshing];
     
-//    NSLog(@"%ld", response.pois.count);
-//    NSString *result = [NSString stringWithFormat:@"%@ \n %@ \n %@", strCount, strSuggestion, strPoi];
-//    NSLog(@"Place: %@", result);
-//    NSLog(@"%ld", _POIArray.count);
     dispatch_async(dispatch_get_main_queue(), ^{
         [_listTableView reloadData];
     });
@@ -289,9 +308,6 @@ updatingLocation:(BOOL)updatingLocation
     _pointAnnotation.coordinate = _mapView.centerCoordinate;
     AMapGeoPoint *point = [AMapGeoPoint locationWithLatitude:_mapView.centerCoordinate.latitude longitude:_mapView.centerCoordinate.longitude];
     [self loadMoreData:point];
-//    dispatch_async(dispatch_get_main_queue(), ^{
-//        [_listTableView reloadData];
-//    });
     NSLog(@"regionWillChangeAnimated");
 }
 
